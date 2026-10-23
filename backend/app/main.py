@@ -15,7 +15,7 @@ from app.config import Settings
 from app.db import make_engine
 from app.errors import AppError, app_error
 from app.redis import make_redis
-from app.routers import admin, analyze, auth, health, phone
+from app.routers import admin, analyze, auth, health, keywords, phone
 
 logger = logging.getLogger("stopscam.access")
 
@@ -163,4 +163,5 @@ def create_app(settings=None):
     app.include_router(phone.router)
     app.include_router(analyze.router)
     app.include_router(admin.router)
+    app.include_router(keywords.router)
     return app

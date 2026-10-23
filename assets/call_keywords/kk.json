@@ -1,0 +1,40 @@
+{
+  "lang": "kk",
+  "version": 1,
+  "cautionThreshold": 6,
+  "dangerThreshold": 10,
+  "categories": [
+    {
+      "id": "bank_security",
+      "phrases": []
+    },
+    {
+      "id": "otp",
+      "phrases": []
+    },
+    {
+      "id": "remote_access",
+      "phrases": []
+    },
+    {
+      "id": "authority",
+      "phrases": []
+    },
+    {
+      "id": "urgency_secrecy",
+      "phrases": []
+    },
+    {
+      "id": "money_transfer",
+      "phrases": []
+    },
+    {
+      "id": "investment",
+      "phrases": []
+    },
+    {
+      "id": "relative_emergency",
+      "phrases": []
+    }
+  ]
+}

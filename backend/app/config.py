@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     jwt_ttl_minutes: int = Field(15, gt=0)
     phone_hash_pepper: str = ""
     admin_api_key: str = ""
+    keyword_signing_private_key: str = ""
     llm_api_key: str = ""
     llm_api_url: str = "https://api.openai.com/v1/chat/completions"
     llm_model: str = "gpt-4o-mini"

@@ -6,6 +6,7 @@ dependencies = [
  "fastapi>=0.115", "pydantic>=2", "pydantic-settings>=2",
  "sqlalchemy[asyncio]>=2", "asyncpg>=0.30", "alembic>=1.14", "redis>=5",
  "httpx>=0.28", "PyJWT>=2.10", "phonenumbers>=9", "idna>=3", "uvicorn>=0.34",
+ "cryptography>=50",
 ]
 [project.optional-dependencies]
 test = ["pytest>=8", "pytest-asyncio>=0.25", "pytest-cov>=6", "aiosqlite>=0.20", "fakeredis[lua]>=2", "ruff>=0.9"]

@@ -1,0 +1,312 @@
+{
+  "lang": "ru",
+  "version": 1,
+  "cautionThreshold": 6,
+  "dangerThreshold": 10,
+  "categories": [
+    {
+      "id": "bank_security",
+      "phrases": [
+        {
+          "id": "bank_security",
+          "weight": 3,
+          "variants": [
+            "служба безопасности банка",
+            "службы безопасности банка"
+          ]
+        },
+        {
+          "id": "blocked_card",
+          "weight": 2,
+          "variants": [
+            "ваша карта заблокирована",
+            "вашу карту заблокировали"
+          ]
+        },
+        {
+          "id": "safe_account",
+          "weight": 4,
+          "variants": [
+            "безопасный счет",
+            "защищенный счет",
+            "безопасного счета"
+          ]
+        },
+        {
+          "id": "card_operation",
+          "weight": 2,
+          "variants": [
+            "подозрительная операция по карте"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "otp",
+      "phrases": [
+        {
+          "id": "sms_code",
+          "weight": 4,
+          "variants": [
+            "назовите код из смс",
+            "скажите код из смс",
+            "продиктуйте код из смс",
+            "сообщите код из sms",
+            "назовите код из эс эм эс"
+          ]
+        },
+        {
+          "id": "confirmation_code",
+          "weight": 4,
+          "variants": [
+            "сообщите код подтверждения",
+            "продиктуйте код подтверждения",
+            "назовите код подтверждения",
+            "отправьте код подтверждения"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "remote_access",
+      "phrases": [
+        {
+          "id": "anydesk",
+          "weight": 4,
+          "variants": [
+            "anydesk",
+            "энидеск",
+            "эни деск",
+            "ани деск"
+          ]
+        },
+        {
+          "id": "teamviewer",
+          "weight": 4,
+          "variants": [
+            "teamviewer",
+            "тимвьювер",
+            "тим вьювер"
+          ]
+        },
+        {
+          "id": "rustdesk",
+          "weight": 4,
+          "variants": [
+            "rustdesk",
+            "растдеск"
+          ]
+        },
+        {
+          "id": "install_app",
+          "weight": 2,
+          "variants": [
+            "установите приложение",
+            "установить приложение"
+          ]
+        },
+        {
+          "id": "remote_access",
+          "weight": 4,
+          "variants": [
+            "удаленный доступ",
+            "удаленного доступа"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "authority",
+      "phrases": [
+        {
+          "id": "investigator",
+          "weight": 2,
+          "variants": [
+            "следовател*"
+          ]
+        },
+        {
+          "id": "prosecutor",
+          "weight": 2,
+          "variants": [
+            "прокуратур*"
+          ]
+        },
+        {
+          "id": "police",
+          "weight": 2,
+          "variants": [
+            "полици*"
+          ]
+        },
+        {
+          "id": "national_bank",
+          "weight": 3,
+          "variants": [
+            "нацбанк*",
+            "национального банка"
+          ]
+        },
+        {
+          "id": "finmonitoring",
+          "weight": 3,
+          "variants": [
+            "финмониторинг*"
+          ]
+        },
+        {
+          "id": "criminal_case",
+          "weight": 3,
+          "variants": [
+            "уголовное дело"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urgency_secrecy",
+      "phrases": [
+        {
+          "id": "secret",
+          "weight": 3,
+          "variants": [
+            "никому не говорите",
+            "никому не сообщайте о разговоре"
+          ]
+        },
+        {
+          "id": "urgent",
+          "weight": 1,
+          "variants": [
+            "срочно"
+          ]
+        },
+        {
+          "id": "now",
+          "weight": 1,
+          "variants": [
+            "прямо сейчас"
+          ]
+        },
+        {
+          "id": "block_threat",
+          "weight": 3,
+          "variants": [
+            "иначе заблокируем"
+          ]
+        },
+        {
+          "id": "stay_on_call",
+          "weight": 3,
+          "variants": [
+            "не кладите трубку"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "money_transfer",
+      "phrases": [
+        {
+          "id": "transfer",
+          "weight": 3,
+          "variants": [
+            "переведите деньги",
+            "переведите на счет",
+            "перевести деньги"
+          ]
+        },
+        {
+          "id": "cash",
+          "weight": 4,
+          "variants": [
+            "снимите наличные",
+            "снять наличные"
+          ]
+        },
+        {
+          "id": "loan",
+          "weight": 4,
+          "variants": [
+            "оформите кредит",
+            "оформить кредит"
+          ]
+        },
+        {
+          "id": "loan_your_name",
+          "weight": 3,
+          "variants": [
+            "кредит на ваше имя"
+          ]
+        },
+        {
+          "id": "card_data",
+          "weight": 4,
+          "variants": [
+            "продиктуйте данные карты",
+            "назовите данные карты"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "investment",
+      "phrases": [
+        {
+          "id": "guaranteed_income",
+          "weight": 4,
+          "variants": [
+            "гарантированный доход"
+          ]
+        },
+        {
+          "id": "broker",
+          "weight": 2,
+          "variants": [
+            "брокер*"
+          ]
+        },
+        {
+          "id": "crypto",
+          "weight": 2,
+          "variants": [
+            "криптовалют*"
+          ]
+        },
+        {
+          "id": "quick_money",
+          "weight": 3,
+          "variants": [
+            "быстрый заработок"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relative_emergency",
+      "phrases": [
+        {
+          "id": "son_accident",
+          "weight": 4,
+          "variants": [
+            "ваш сын попал в аварию"
+          ]
+        },
+        {
+          "id": "daughter_accident",
+          "weight": 4,
+          "variants": [
+            "ваша дочь попала в аварию"
+          ]
+        },
+        {
+          "id": "need_money",
+          "weight": 2,
+          "variants": [
+            "нужны деньги"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -79,3 +79,14 @@ class AdminAudit(Base):
     created_at: Mapped[datetime] = mapped_column(
         sa.DateTime(timezone=True), default=utcnow
     )
+
+
+class KeywordDictionaryRecord(Base):
+    __tablename__ = "keyword_dictionaries"
+    lang: Mapped[str] = mapped_column(sa.String(2), primary_key=True)
+    version: Mapped[int] = mapped_column(sa.Integer)
+    envelope: Mapped[str] = mapped_column(sa.Text)
+    etag: Mapped[str] = mapped_column(sa.CHAR(64))
+    updated_at: Mapped[datetime] = mapped_column(
+        sa.DateTime(timezone=True), default=utcnow
+    )
