@@ -187,3 +187,19 @@ async def test_real_provider_transport(app, case, status):
         with pytest.raises(AppError) as failure:
             await provider.complete({"language": "ru"})
         assert failure.value.status == status
+
+
+@pytest.mark.parametrize("field", ["summary", "category"])
+async def test_trimmed_text(client, ai, field):
+    provider, headers = ai
+    provider.result[field] = "  unknown  " if field == "category" else "  summary  "
+    response = await client.post("/v1/analyze", json=BODY, headers=headers)
+    assert response.status_code == 200
+    assert response.json()[field] == provider.result[field].strip()
+
+
+async def test_utf16_client_limit(client, ai):
+    provider, headers = ai
+    provider.result["recommendations"] = ["😀" * 1501]
+    response = await client.post("/v1/analyze", json=BODY, headers=headers)
+    assert response.status_code == 502 and len(provider.calls) == 2

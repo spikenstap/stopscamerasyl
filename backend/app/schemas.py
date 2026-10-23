@@ -83,7 +83,11 @@ class AnalysisResult(StrictModel):
     @field_validator("summary", "category", mode="before")
     @classmethod
     def validate_text(cls, value, info):
-        if not isinstance(value, str) or not value.strip() or len(value) > 5000:
+        if (
+            not isinstance(value, str)
+            or not value.strip()
+            or len(value.encode("utf-16-le")) // 2 > 5000
+        ):
             raise ValueError("Invalid text")
         value = value.strip()
         if (
@@ -97,7 +101,10 @@ class AnalysisResult(StrictModel):
     @classmethod
     def validate_items(cls, value):
         if not isinstance(value, list) or any(
-            not isinstance(v, str) or not v.strip() or len(v) > 3000 for v in value
+            not isinstance(v, str)
+            or not v.strip()
+            or len(v.encode("utf-16-le")) // 2 > 3000
+            for v in value
         ):
             raise ValueError("Invalid items")
         return [v.strip() for v in value]

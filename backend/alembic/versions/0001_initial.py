@@ -32,7 +32,7 @@ def upgrade():
         sa.Column("secret_hash", sa.CHAR(length=64), nullable=False),
         sa.Column("platform", sa.String(length=16), nullable=False),
         sa.Column("app_version", sa.String(length=32), nullable=False),
-        sa.Column("blocked", sa.Boolean(), server_default=sa.text("0"), nullable=False),
+        sa.Column("blocked", sa.Boolean(), server_default=sa.false(), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("last_seen_at", sa.DateTime(timezone=True), nullable=False),
         sa.PrimaryKeyConstraint("id"),

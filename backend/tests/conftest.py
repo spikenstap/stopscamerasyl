@@ -13,7 +13,7 @@ async def app():
         Settings(
             app_env="test",
             database_url="sqlite+aiosqlite://",
-            jwt_secret="test-only-" * 4,
+            jwt_secret="test-only-" * 6,
             phone_hash_pepper="test-pepper-" * 4,
         )
     )

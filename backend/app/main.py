@@ -1,5 +1,6 @@
 import json
 import logging
+import secrets
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -107,6 +108,11 @@ class EnvelopeMiddleware:
 
 def create_app(settings=None):
     settings = settings or Settings()
+    if not settings.jwt_secret:
+        settings.jwt_secret = secrets.token_urlsafe(48)
+    if not settings.phone_hash_pepper:
+        settings.phone_hash_pepper = secrets.token_urlsafe(48)
+    logging.getLogger("httpx").setLevel(logging.WARNING)
 
     @asynccontextmanager
     async def lifespan(app):
