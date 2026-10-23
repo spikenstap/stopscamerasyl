@@ -1,0 +1,9 @@
+.env
+__pycache__
+tests
+dev
+.pytest_cache
+.ruff_cache
+*.db
+.coverage
+
