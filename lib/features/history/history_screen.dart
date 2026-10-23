@@ -118,7 +118,7 @@ class HistoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
     child: InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(24),
       onTap: () => context.push('/result', extra: item),
       child: Padding(
         padding: const EdgeInsets.all(16),

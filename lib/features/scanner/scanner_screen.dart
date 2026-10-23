@@ -93,10 +93,12 @@ class _ScannerState extends ConsumerState<ScannerScreen> {
               children: [
                 Row(
                   children: [
+                    IconTile(isUrl ? Icons.link : Icons.chat_bubble_outline),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         isUrl ? l.checkLink : l.checkMessage,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     IconButton(
@@ -111,7 +113,7 @@ class _ScannerState extends ConsumerState<ScannerScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 TextFormField(
                   key: ValueKey(isUrl),
                   controller: input,
@@ -127,6 +129,8 @@ class _ScannerState extends ConsumerState<ScannerScreen> {
                   onTapOutside: (_) =>
                       FocusManager.instance.primaryFocus?.unfocus(),
                   decoration: InputDecoration(
+                    labelText: isUrl ? l.linkMode : l.textMode,
+                    alignLabelWithHint: true,
                     hintText: isUrl ? l.urlHint : l.textHint,
                     errorMaxLines: 3,
                   ),
@@ -211,9 +215,22 @@ class _ScannerState extends ConsumerState<ScannerScreen> {
           ),
         ),
         const SizedBox(height: 18),
-        Text(
-          l.privacyNotice,
-          style: const TextStyle(fontSize: 12, height: 1.5),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.lock_outline,
+              size: 18,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l.privacyNotice,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Notice(l.disclaimer, icon: Icons.shield_outlined),

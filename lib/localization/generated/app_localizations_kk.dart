@@ -214,7 +214,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get about => 'Қолданба туралы';
 
   @override
-  String get version => '2.2.0';
+  String get version => '2.3.0';
 
   @override
   String get privacy => 'Құпиялық';
@@ -934,4 +934,34 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get callListeningBack => 'Көмекшіге оралу';
+
+  @override
+  String get designQuickChecks => 'Нені тексереміз?';
+
+  @override
+  String get designMessage => 'Хабарлама';
+
+  @override
+  String get designMessageHint => 'SMS және мессенджерлер';
+
+  @override
+  String get designLinkHint => 'Сайттар мен мекенжайлар';
+
+  @override
+  String get designPhone => 'Телефон нөмірі';
+
+  @override
+  String get designPhoneHint => 'Нөмірдің беделі';
+
+  @override
+  String get designQr => 'QR-код';
+
+  @override
+  String get designQrHint => 'Мазмұнын тексеру';
+
+  @override
+  String get designCallHint => 'Әңгіме кезіндегі кеңестер. Өзіңіз қосасыз.';
+
+  @override
+  String get designNumbersHint => 'Нөмірлеріңіз бен бұғаттау ережелері';
 }

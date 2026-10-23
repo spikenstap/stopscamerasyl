@@ -213,7 +213,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get about => 'О приложении';
 
   @override
-  String get version => '2.2.0';
+  String get version => '2.3.0';
 
   @override
   String get privacy => 'Конфиденциальность';
@@ -933,4 +933,35 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get callListeningBack => 'Вернуться к помощнику';
+
+  @override
+  String get designQuickChecks => 'Что проверим?';
+
+  @override
+  String get designMessage => 'Сообщение';
+
+  @override
+  String get designMessageHint => 'SMS и мессенджеры';
+
+  @override
+  String get designLinkHint => 'Сайты и адреса';
+
+  @override
+  String get designPhone => 'Номер телефона';
+
+  @override
+  String get designPhoneHint => 'Репутация номера';
+
+  @override
+  String get designQr => 'QR-код';
+
+  @override
+  String get designQrHint => 'Проверка содержимого';
+
+  @override
+  String get designCallHint =>
+      'Подсказки во время разговора. Запускается вами.';
+
+  @override
+  String get designNumbersHint => 'Ваши номера и правила блокировки';
 }

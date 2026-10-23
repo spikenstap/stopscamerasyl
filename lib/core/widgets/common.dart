@@ -49,7 +49,7 @@ class PageBody extends StatelessWidget {
   Widget build(BuildContext context) => SafeArea(
     child: SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
@@ -72,9 +72,16 @@ class PageHeading extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.headlineMedium),
+        Semantics(
+          header: true,
+          child: Text(title, style: Theme.of(context).textTheme.headlineMedium),
+        ),
         const SizedBox(height: 8),
-        Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          subtitle,
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+        ),
       ],
     ),
   );
@@ -84,7 +91,7 @@ class AppCard extends StatelessWidget {
   const AppCard({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(18),
+    this.padding = const EdgeInsets.all(20),
   });
   final Widget child;
   final EdgeInsets padding;
@@ -95,17 +102,23 @@ class AppCard extends StatelessWidget {
 }
 
 class IconTile extends StatelessWidget {
-  const IconTile(this.icon, {super.key, this.color = AppColors.primary});
+  const IconTile(this.icon, {super.key, this.color});
   final IconData icon;
-  final Color color;
+  final Color? color;
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(11),
     decoration: BoxDecoration(
-      color: color.withValues(alpha: 0.12),
+      color: (color ?? Theme.of(context).colorScheme.primary).withValues(
+        alpha: 0.12,
+      ),
       borderRadius: BorderRadius.circular(14),
     ),
-    child: Icon(icon, color: color, size: 24),
+    child: Icon(
+      icon,
+      color: color ?? Theme.of(context).colorScheme.primary,
+      size: 24,
+    ),
   );
 }
 

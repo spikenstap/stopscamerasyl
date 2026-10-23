@@ -17,22 +17,6 @@ class SettingsScreen extends ConsumerWidget {
     return PageBody(
       children: [
         PageHeading(l.settings, l.tagline),
-        ListTile(
-          leading: const Icon(Icons.menu_book_outlined),
-          title: Text(l.education),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => context.push('/education'),
-        ),
-        const CallProtectionCard(),
-        SwitchListTile(
-          key: const ValueKey('share-number-reports'),
-          title: Text(l.shareNumberReports),
-          subtitle: Text(l.shareNumberReportsBody),
-          value: prefs.shareReports,
-          onChanged: (value) =>
-              guarded(context, () => controller.shareReports(value)),
-        ),
-        const SizedBox(height: 16),
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,6 +71,22 @@ class SettingsScreen extends ConsumerWidget {
                 ),
             ],
           ),
+        ),
+        const SizedBox(height: 16),
+        ListTile(
+          leading: const Icon(Icons.menu_book_outlined),
+          title: Text(l.education),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => context.push('/education'),
+        ),
+        const CallProtectionCard(),
+        SwitchListTile(
+          key: const ValueKey('share-number-reports'),
+          title: Text(l.shareNumberReports),
+          subtitle: Text(l.shareNumberReportsBody),
+          value: prefs.shareReports,
+          onChanged: (value) =>
+              guarded(context, () => controller.shareReports(value)),
         ),
         const SizedBox(height: 16),
         Card(

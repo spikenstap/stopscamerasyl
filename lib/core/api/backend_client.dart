@@ -120,7 +120,7 @@ class BackendClient {
           'platform': defaultTargetPlatform == TargetPlatform.iOS
               ? 'ios'
               : 'android',
-          'appVersion': '2.2.0+4',
+          'appVersion': '2.3.0+5',
         });
         _checkDevice(registered);
         final device = {

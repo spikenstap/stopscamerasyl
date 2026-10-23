@@ -491,7 +491,7 @@ abstract class AppLocalizations {
   /// No description provided for @version.
   ///
   /// In ru, this message translates to:
-  /// **'2.2.0'**
+  /// **'2.3.0'**
   String get version;
 
   /// No description provided for @privacy.
@@ -1783,6 +1783,66 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Вернуться к помощнику'**
   String get callListeningBack;
+
+  /// No description provided for @designQuickChecks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что проверим?'**
+  String get designQuickChecks;
+
+  /// No description provided for @designMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение'**
+  String get designMessage;
+
+  /// No description provided for @designMessageHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS и мессенджеры'**
+  String get designMessageHint;
+
+  /// No description provided for @designLinkHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сайты и адреса'**
+  String get designLinkHint;
+
+  /// No description provided for @designPhone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер телефона'**
+  String get designPhone;
+
+  /// No description provided for @designPhoneHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Репутация номера'**
+  String get designPhoneHint;
+
+  /// No description provided for @designQr.
+  ///
+  /// In ru, this message translates to:
+  /// **'QR-код'**
+  String get designQr;
+
+  /// No description provided for @designQrHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверка содержимого'**
+  String get designQrHint;
+
+  /// No description provided for @designCallHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подсказки во время разговора. Запускается вами.'**
+  String get designCallHint;
+
+  /// No description provided for @designNumbersHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши номера и правила блокировки'**
+  String get designNumbersHint;
 }
 
 class _AppLocalizationsDelegate
