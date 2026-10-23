@@ -24,6 +24,14 @@ class SettingsScreen extends ConsumerWidget {
           onTap: () => context.push('/education'),
         ),
         const CallProtectionCard(),
+        SwitchListTile(
+          key: const ValueKey('share-number-reports'),
+          title: Text(l.shareNumberReports),
+          subtitle: Text(l.shareNumberReportsBody),
+          value: prefs.shareReports,
+          onChanged: (value) =>
+              guarded(context, () => controller.shareReports(value)),
+        ),
         const SizedBox(height: 16),
         AppCard(
           child: Column(

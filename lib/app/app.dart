@@ -11,6 +11,7 @@ class StopScamApp extends ConsumerWidget {
   const StopScamApp({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(backendInitializationProvider);
     final prefs = ref.watch(preferencesProvider);
     return MaterialApp.router(
       builder: (context, child) =>

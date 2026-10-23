@@ -1,0 +1,6 @@
+# Explicit local-network mode for a debug APK. Requires Docker Compose >= 2.24.4.
+# Set BACKEND_BIND_IP to the computer's active LAN IPv4 address.
+services:
+  api:
+    ports: !override
+      - "${BACKEND_BIND_IP:?Set BACKEND_BIND_IP to your LAN IPv4}:8000:8000"

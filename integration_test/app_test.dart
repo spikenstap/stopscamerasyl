@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stopscam/app/app.dart';
 import 'package:stopscam/app/router.dart';
-import 'package:stopscam/core/api/api_client.dart';
+import 'package:stopscam/core/api/backend_client.dart';
 import 'package:stopscam/core/providers.dart';
 import 'package:stopscam/core/storage/local_storage.dart';
 import 'package:stopscam/services/scam_ai_service.dart';
@@ -46,7 +46,7 @@ void main() {
       overrides: [
         storageProvider.overrideWithValue(LocalStorage(prefs)),
         aiServiceProvider.overrideWithValue(
-          ScamAiService(ApiClient(), config: {'USE_MOCK_AI': 'true'}),
+          ScamAiService(BackendClient(), config: {'USE_MOCK_AI': 'true'}),
         ),
       ],
     );

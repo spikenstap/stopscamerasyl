@@ -14,6 +14,12 @@ class LocalStorage {
     }
   }
 
+  Future<void> setBool(String key, bool value) async {
+    if (!await prefs.setBool(key, value)) {
+      throw const ApiException(Failure.storage);
+    }
+  }
+
   Future<void> completeOnboarding() async {
     if (!await prefs.setBool('onboardingCompleted', true)) {
       throw const ApiException(Failure.storage);

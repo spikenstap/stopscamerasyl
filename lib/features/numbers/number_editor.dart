@@ -7,6 +7,7 @@ import '../../core/providers.dart';
 import '../../core/utils/phone_utils.dart';
 import '../../core/widgets/common.dart';
 import '../../models/personal_number.dart';
+import '../../services/number_report_service.dart';
 import 'number_providers.dart';
 import 'number_widgets.dart';
 
@@ -300,13 +301,21 @@ class _ReportState extends ConsumerState<NumberReportEditor> {
       failure = null;
     });
     try {
-      await ref
-          .read(numberRepositoryProvider)
-          .report(widget.phone, category, note.text);
+      final sharing = await ref
+          .read(numberReportServiceProvider)
+          .save(widget.phone, category, note.text);
       if (!mounted) return;
       ref.invalidate(numbersProvider);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(context.l.numberReportSaved)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(switch (sharing) {
+            ReportSharingResult.shared => context.l.numberReportShared,
+            ReportSharingResult.sharingFailed =>
+              context.l.numberReportShareFailed,
+            ReportSharingResult.localOnly => context.l.numberReportSaved,
+          }),
+        ),
+      );
       context.pop();
     } on Object catch (e) {
       if (mounted) setState(() => failure = e);

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
+import '../core/api/backend_client.dart';
 
 import '../core/storage/local_storage.dart';
 
@@ -55,31 +55,13 @@ abstract class PhoneReputationService {
 }
 
 class ConfigurablePhoneReputationService implements PhoneReputationService {
-  ConfigurablePhoneReputationService(this.storage, this.config, {Dio? dio})
-    : dio =
-          dio ??
-          Dio(
-            BaseOptions(
-              connectTimeout: const Duration(seconds: 4),
-              receiveTimeout: const Duration(seconds: 4),
-              sendTimeout: const Duration(seconds: 4),
-              followRedirects: false,
-            ),
-          );
+  ConfigurablePhoneReputationService(this.storage, this.backend);
   final LocalStorage storage;
-  final Map<String, String> config;
-  final Dio dio;
+  final BackendClient backend;
   @override
   Future<PhoneReputation> checkNumber(String phoneNumber) async {
-    final url = config['PHONE_REPUTATION_API_URL'] ?? '';
-    if (url.isEmpty) return const PhoneReputation();
-    final uri = Uri.tryParse(url);
-    if (uri == null ||
-        uri.scheme != 'https' ||
-        uri.host.isEmpty ||
-        uri.userInfo.isNotEmpty) {
-      return const PhoneReputation(reason: 'configuration');
-    }
+    if (!backend.isConfigured) return const PhoneReputation();
+    final url = backend.baseUrl;
     final cacheKey = 'reputation:$url:$phoneNumber';
     final raw = storage.prefs.getString(cacheKey);
     if (raw != null) {
@@ -87,22 +69,19 @@ class ConfigurablePhoneReputationService implements PhoneReputationService {
         final cached = PhoneReputation.fromJson(
           jsonDecode(raw) as Map<String, dynamic>,
         );
-        if (cached.expiresAt?.isAfter(DateTime.now()) == true) return cached;
+        final now = DateTime.now();
+        if (cached.expiresAt?.isAfter(now) == true &&
+            !cached.expiresAt!.isAfter(now.add(const Duration(hours: 24)))) {
+          return cached;
+        }
       } on Object {
         /* Invalid cache is ignored; the provider is checked again. */
       }
     }
     try {
-      final key = config['PHONE_REPUTATION_API_KEY'] ?? '';
-      final response = await dio.post<dynamic>(
-        url,
-        data: {'phoneNumber': phoneNumber},
-        options: Options(
-          followRedirects: false,
-          headers: {if (key.isNotEmpty) 'Authorization': 'Bearer $key'},
-        ),
-      );
-      final payload = Map<String, dynamic>.from(response.data as Map);
+      final payload = await backend.post('/v1/phone/check', {
+        'phoneNumber': phoneNumber,
+      });
       // Cache lifetime is locally capped at 24h; providers cannot extend it.
       final expiry = DateTime.now().add(const Duration(hours: 24));
       final supplied = payload['expiresAt'];

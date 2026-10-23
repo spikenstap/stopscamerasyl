@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../core/api/api_client.dart';
+import '../core/api/backend_client.dart';
 import '../core/api/api_exception.dart';
 import '../localization/generated/app_localizations.dart';
 import '../models/scam_analysis.dart';
@@ -12,12 +10,13 @@ import 'dev_fixtures.dart';
 
 class ScamAiService {
   ScamAiService(this.client, {Map<String, String>? config})
-    : config = config ?? dotenv.env;
-  final ApiClient client;
+    : config = config ?? (dotenv.isInitialized ? dotenv.env : {});
+  final BackendClient client;
   final Map<String, String> config;
   bool get isMock =>
       kDebugMode && config['USE_MOCK_AI']?.toLowerCase() == 'true';
 
+  // Contract reference for backend parity tests. Requests use the backend only.
   static const systemPrompt = '''You are an anti-scam risk analysis engine. Analyze ONLY the supplied content.
 Do not assume every input is malicious. Ordinary everyday messages normally have
 low risk. Scores must reflect concrete evidence, not a reusable canned verdict.
@@ -87,58 +86,17 @@ Do not repeat passwords, payment card data or OTP codes in the answer.''';
         ...localSignals.toString().split(' '),
       ], l);
     }
-    final key = config['AI_API_KEY']?.trim() ?? '';
-    final url = config['AI_API_URL']?.trim() ?? '';
-    final uri = Uri.tryParse(url);
-    if (key.isEmpty ||
-        key == 'your_api_key_here' ||
-        uri == null ||
-        uri.scheme != 'https' ||
-        uri.host.isEmpty ||
-        uri.userInfo.isNotEmpty) {
-      throw const ApiException(Failure.config);
-    }
-    final result = await client.complete(
-      url: url,
-      key: key,
-      body: {
-        'model': config['AI_MODEL'] ?? 'gpt-4o-mini',
-        'messages': [
-          {
-            'role': 'system',
-            'content':
-                '$systemPrompt\nWrite summary, reasons and recommendations in ${language == 'kk' ? 'Kazakh' : 'Russian'}.',
-          },
-          {
-            'role': 'user',
-            'content': jsonEncode({
-              'analysisType': type,
-              'content': text,
-              'language': language,
-              'localSignals': localSignals,
-              'localUrlSignals': signals,
-            }),
-          },
-        ],
-        'response_format': {
-          'type': 'json_schema',
-          'json_schema': {
-            'name': 'scam_analysis',
-            'strict': true,
-            'schema': schema,
-          },
-        },
+    final result = await client.post('/v1/analyze', {
+      'type': type,
+      'content': text,
+      'language': language,
+      'localSignals': {
+        ...localSignals,
+        if (signals.isNotEmpty) 'localUrlSignals': signals,
       },
-    );
+    });
     try {
-      final choices = result['choices'] as List<dynamic>;
-      final choice = choices.first as Map<String, dynamic>;
-      if (choice['finish_reason'] != 'stop') {
-        throw const FormatException('Incomplete');
-      }
-      final message = choice['message'] as Map<String, dynamic>;
-      if (message['refusal'] != null) throw const FormatException('Refusal');
-      return ScamAnalysis.parse(message['content'] as String);
+      return ScamAnalysis.fromJson(result);
     } on Object {
       throw const ApiException(Failure.json);
     }

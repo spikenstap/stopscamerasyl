@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stopscam/core/api/api_client.dart';
+import 'package:stopscam/core/api/backend_client.dart';
 import 'package:stopscam/core/storage/local_storage.dart';
 import 'package:stopscam/core/utils/phone_utils.dart';
 import 'package:stopscam/core/utils/qr_content.dart';
@@ -79,8 +79,8 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     final storage = LocalStorage(await SharedPreferences.getInstance());
     final service = AnalysisService(
-      ScamAiService(ApiClient(), config: {}),
-      ConfigurablePhoneReputationService(storage, {}),
+      ScamAiService(BackendClient(), config: {}),
+      ConfigurablePhoneReputationService(storage, BackendClient(config: {})),
       const CallBridge(),
     );
     final result = await service.analyzePhoneNumber('87001234567', 'ru', l);
@@ -105,8 +105,8 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final storage = LocalStorage(await SharedPreferences.getInstance());
       final service = AnalysisService(
-        ScamAiService(ApiClient(), config: {'USE_MOCK_AI': 'true'}),
-        ConfigurablePhoneReputationService(storage, {}),
+        ScamAiService(BackendClient(), config: {'USE_MOCK_AI': 'true'}),
+        ConfigurablePhoneReputationService(storage, BackendClient(config: {})),
         const CallBridge(),
       );
       final safe = await service.analyzeText(

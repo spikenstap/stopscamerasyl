@@ -1,13 +1,66 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stopscam/core/storage/local_storage.dart';
 import 'package:stopscam/services/phone_reputation_service.dart';
 
-import 'api_test.dart' show TestAdapter;
+import 'support/backend_fakes.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test(
+    'Server cannot extend cache beyond 24h; expired/corrupt cache is replaced',
+    () async {
+      for (final cached in [
+        'broken',
+        jsonEncode({
+          'status': 'flagged',
+          'confidence': 1,
+          'confirmed': true,
+          'source': 'stale',
+          'expiresAt': 1,
+        }),
+        jsonEncode({
+          'status': 'flagged',
+          'confidence': 1,
+          'confirmed': true,
+          'source': 'overlong',
+          'expiresAt': DateTime.now()
+              .add(const Duration(days: 3))
+              .millisecondsSinceEpoch,
+        }),
+      ]) {
+        SharedPreferences.setMockInitialValues({
+          'reputation:https://example.com:+77001234567': cached,
+        });
+        final adapter = TestAdapter(200, {
+          'status': 'unknown',
+          'confidence': 0,
+          'confirmed': false,
+          'source': '',
+          'expiresAt': DateTime.now()
+              .add(const Duration(days: 3))
+              .millisecondsSinceEpoch,
+        });
+        final service = ConfigurablePhoneReputationService(
+          LocalStorage(await SharedPreferences.getInstance()),
+          adapter.client(),
+        );
+        final before = DateTime.now();
+        final result = await service.checkNumber('+77001234567');
+        expect(result.status, 'unknown');
+        expect(
+          result.expiresAt!.difference(before).inSeconds,
+          lessThanOrEqualTo(86401),
+        );
+        expect(adapter.calls, 1);
+        expect(adapter.request!.uri.path, '/v1/phone/check');
+        await service.checkNumber('+77001234567');
+        expect(adapter.calls, 1);
+      }
+    },
+  );
   test(
     'Configured reputation uses normalized request and caches real evidence',
     () async {
@@ -19,9 +72,10 @@ void main() {
         'source': 'test-provider',
       });
       final storage = LocalStorage(await SharedPreferences.getInstance());
-      final service = ConfigurablePhoneReputationService(storage, {
-        'PHONE_REPUTATION_API_URL': 'https://example.com/reputation',
-      }, dio: Dio()..httpClientAdapter = adapter);
+      final service = ConfigurablePhoneReputationService(
+        storage,
+        adapter.client(),
+      );
       final result = await service.checkNumber('+77001234567');
       expect(result.status, 'flagged');
       expect(result.source, 'test-provider');
@@ -49,9 +103,10 @@ void main() {
         }),
         TestAdapter(503, {'error': 'private provider details'}),
       ]) {
-        final service = ConfigurablePhoneReputationService(storage, {
-          'PHONE_REPUTATION_API_URL': 'https://example.com',
-        }, dio: Dio()..httpClientAdapter = adapter);
+        final service = ConfigurablePhoneReputationService(
+          storage,
+          adapter.client(),
+        );
         final result = await service.checkNumber('+77001234567');
         expect(result.status, 'unknown');
         expect(result.reason, 'unavailable');

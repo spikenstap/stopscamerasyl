@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stopscam/core/api/api_client.dart';
+import 'package:stopscam/core/api/backend_client.dart';
 import 'package:stopscam/core/utils/url_utils.dart';
 import 'package:stopscam/localization/generated/app_localizations_ru.dart';
 import 'package:stopscam/services/scam_ai_service.dart';
+
+import 'support/backend_fakes.dart' show MemoryCredentials;
 
 void main() {
   test(
@@ -14,7 +16,7 @@ void main() {
       final env = DotEnv()
         ..loadFromString(envString: File('.env').readAsStringSync());
       final service = ScamAiService(
-        ApiClient(),
+        BackendClient(config: env.env, credentials: MemoryCredentials()),
         config: {...env.env, 'USE_MOCK_AI': 'false'},
       );
       final cases = [

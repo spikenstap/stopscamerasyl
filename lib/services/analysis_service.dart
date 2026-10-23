@@ -164,10 +164,15 @@ class AnalysisService {
     } else if (qr.type == QrContentType.phone) {
       result = await analyzePhoneNumber(qr.content, language, l);
     } else {
-      result = await _ai(input, language, l, {
-        ...metadata,
-        'urls': UrlUtils.extract(qr.content).map((u) => u.toJson()).toList(),
-      });
+      result = await _ai(
+        AnalysisInput(AnalysisType.text, qr.content),
+        language,
+        l,
+        {
+          ...metadata,
+          'urls': UrlUtils.extract(qr.content).map((u) => u.toJson()).toList(),
+        },
+      );
     }
     return result.withInput(input, {...result.details, ...metadata});
   }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stopscam/core/api/api_client.dart';
+import 'package:stopscam/core/api/backend_client.dart';
 import 'package:stopscam/localization/generated/app_localizations.dart';
 import 'package:stopscam/localization/generated/app_localizations_ru.dart';
 import 'package:stopscam/models/personal_number.dart';
@@ -29,7 +29,7 @@ class UnknownReputation extends PhoneReputationService {
 }
 
 class RecordingAi extends ScamAiService {
-  RecordingAi() : super(ApiClient(), config: {});
+  RecordingAi() : super(BackendClient(), config: {});
   Map<String, dynamic>? received;
   @override
   Future<ScamAnalysis> analyze({
