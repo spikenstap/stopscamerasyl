@@ -11,6 +11,7 @@ import '../features/scanner/phone_screen.dart';
 import '../features/scanner/qr_screen.dart';
 import '../features/history/history_screen.dart';
 import '../features/education/education_screen.dart';
+import '../features/call_listening/call_listening_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/result/result_screen.dart';
 import '../models/scan_history_item.dart';
@@ -28,6 +29,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             PhoneScreen(initialPhone: s.uri.queryParameters['phone']),
       ),
       GoRoute(path: '/education', builder: (_, _) => const EducationScreen()),
+      GoRoute(
+        path: '/call-listening',
+        builder: (_, _) => const CallListeningScreen(),
+      ),
       GoRoute(
         path: '/number-edit',
         builder: (_, s) => NumberEditor(phone: s.uri.queryParameters['phone']),

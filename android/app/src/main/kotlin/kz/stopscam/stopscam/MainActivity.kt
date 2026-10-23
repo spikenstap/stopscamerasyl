@@ -12,6 +12,7 @@ import android.net.Uri
 import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
+    private var listening: CallListeningChannel? = null
     private var numbers: NumberChannel?=null
     private var pending: MethodChannel.Result? = null
     private fun role() = if (Build.VERSION.SDK_INT >= 29) getSystemService(RoleManager::class.java) else null
@@ -22,6 +23,8 @@ class MainActivity : FlutterActivity() {
         "notifications" to getSystemService(NotificationManager::class.java).areNotificationsEnabled())
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        listening=CallListeningChannel(this,flutterEngine.dartExecutor.binaryMessenger)
+        listening?.open(intent)
         numbers=NumberChannel(this,flutterEngine.dartExecutor.binaryMessenger)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "kz.stopscam/calls").setMethodCallHandler { call, result ->
             try {
@@ -63,5 +66,10 @@ class MainActivity : FlutterActivity() {
         if(numbers?.onResult(requestCode,resultCode,data)==true)return
         if (requestCode == 602) { pending?.success(role()?.isRoleHeld(RoleManager.ROLE_CALL_SCREENING) == true); pending = null }
     }
-    override fun onDestroy(){numbers?.dispose();numbers=null;super.onDestroy()}
+    override fun onNewIntent(intent: Intent) { super.onNewIntent(intent); listening?.open(intent) }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults)
+        listening?.permissions(requestCode,grantResults)
+    }
+    override fun onDestroy(){listening?.dispose();listening=null;numbers?.dispose();numbers=null;super.onDestroy()}
 }

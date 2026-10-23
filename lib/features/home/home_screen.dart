@@ -36,6 +36,11 @@ class HomeScreen extends ConsumerWidget {
         const SizedBox(height: 10),
         Text(l.tagline),
         OutlinedButton.icon(
+          onPressed: () => context.push('/call-listening'),
+          icon: const Icon(Icons.hearing_outlined),
+          label: Text(l.callListeningTitle),
+        ),
+        OutlinedButton.icon(
           onPressed: () => context.go('/numbers'),
           icon: const Icon(Icons.contact_phone_outlined),
           label: Text(l.numbersOpen),

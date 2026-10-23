@@ -491,7 +491,7 @@ abstract class AppLocalizations {
   /// No description provided for @version.
   ///
   /// In ru, this message translates to:
-  /// **'2.1.0'**
+  /// **'2.2.0'**
   String get version;
 
   /// No description provided for @privacy.
@@ -1121,7 +1121,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyBody.
   ///
   /// In ru, this message translates to:
-  /// **'История последних 200 проверок хранится локально. При ручном анализе введённый текст, ссылка, описание разговора или содержимое QR отправляется вашему backend, который обращается к AI-провайдеру. Пароли Wi-Fi и данные контактных QR не отправляются. Номер передаётся службе репутации только при ручной проверке и наличии настроенного backend. Репутация кэшируется до 24 часов. Проверка входящих звонков использует только локальный кэш, не ждёт сети и включается через системное согласие. Приложение не читает контакты, SMS или полный журнал звонков. Не вводите пароли, коды подтверждения и реквизиты карт. Историю можно удалить в настройках. Системное резервное копирование отключено.\n\nЛичная база номеров и жалобы хранятся отдельно от истории, в SQLite на устройстве. Личная база не синхронизируется. Если вы включили обмен жалобами, новые жалобы передают серверу номер и категорию без названия и заметки. Сервер хранит хэш номера и связывает жалобу со случайным идентификатором устройства; сервер также получает IP-адрес при соединении. Выключение обмена прекращает будущую отправку, но не удаляет уже отправленные жалобы. Названия и заметки из личной базы не передаются AI. Экспорт CSV сохраняет номера и заметки в выбранный вами файл. При удалении приложения или его данных локальная база также удаляется.'**
+  /// **'История последних 200 проверок хранится локально. При ручном анализе введённый текст, ссылка, описание разговора или содержимое QR отправляется вашему backend, который обращается к AI-провайдеру. Пароли Wi-Fi и данные контактных QR не отправляются. Номер передаётся службе репутации только при ручной проверке и наличии настроенного backend. Репутация кэшируется до 24 часов. Проверка входящих звонков использует только локальный кэш, не ждёт сети и включается через системное согласие. Приложение не читает контакты, SMS или полный журнал звонков. Не вводите пароли, коды подтверждения и реквизиты карт. Историю можно удалить в настройках. Системное резервное копирование отключено.\n\nЛичная база номеров и жалобы хранятся отдельно от истории, в SQLite на устройстве. Личная база не синхронизируется. Если вы включили обмен жалобами, новые жалобы передают серверу номер и категорию без названия и заметки. Сервер хранит хэш номера и связывает жалобу со случайным идентификатором устройства; сервер также получает IP-адрес при соединении. Выключение обмена прекращает будущую отправку, но не удаляет уже отправленные жалобы. Названия и заметки из личной базы не передаются AI. Экспорт CSV сохраняет номера и заметки в выбранный вами файл. При удалении приложения или его данных локальная база также удаляется.\n\nПомощник при звонке включается вручную после согласия. Аудио не сохраняется и не передаётся. Распознавание и поиск фраз выполняются на устройстве. Расшифровка стирается при остановке, если вы отдельно не включили её локальное зашифрованное сохранение. Сервер получает только запросы обновления словаря. Кнопка проверки с AI отправляет только краткое описание, написанное вами.'**
   String get privacyBody;
 
   /// No description provided for @openLink.
@@ -1579,6 +1579,210 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Жалоба сохранена на телефоне, но отправить её серверу не удалось.'**
   String get numberReportShareFailed;
+
+  /// No description provided for @callListeningTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Помощник при звонке'**
+  String get callListeningTitle;
+
+  /// No description provided for @callListeningConsentTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перед включением микрофона'**
+  String get callListeningConsentTitle;
+
+  /// No description provided for @callListeningConsentBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы сами включаете громкую связь и запускаете помощника. Речь распознаётся на устройстве через микрофон. Аудио не сохраняется и не отправляется на сервер. Расшифровка по умолчанию остаётся только в памяти и удаляется при остановке. Сохранение последней расшифровки на телефоне можно отдельно включить для сеанса.\n\nПредупредите собеседника об анализе разговора. Требования к согласию зависят от страны; уточните применимые правила до использования.\n\nФункция работает не на всех устройствах: Android может отключать микрофон во время звонка. Требуются Android 12+, доступное локальное распознавание и языковой пакет. При недоступности используйте ручную проверку. Помощник может ошибаться, не подтверждает мошенничество и не завершает звонки.'**
+  String get callListeningConsentBody;
+
+  /// No description provided for @callListeningAccept.
+  ///
+  /// In ru, this message translates to:
+  /// **'Понимаю, включить'**
+  String get callListeningAccept;
+
+  /// No description provided for @callListeningCancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get callListeningCancel;
+
+  /// No description provided for @callListeningBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включите громкую связь самостоятельно. Помощник слушает микрофон только после вашего запуска. Работает не на всех устройствах. Совпадения — повод проверить ситуацию, а не доказательство мошенничества.'**
+  String get callListeningBody;
+
+  /// No description provided for @callListeningStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слушать звонок'**
+  String get callListeningStart;
+
+  /// No description provided for @callListeningStop.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остановить микрофон'**
+  String get callListeningStop;
+
+  /// No description provided for @callListeningActive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Микрофон включён • распознавание на устройстве'**
+  String get callListeningActive;
+
+  /// No description provided for @callListeningStopped.
+  ///
+  /// In ru, this message translates to:
+  /// **'Микрофон выключен'**
+  String get callListeningStopped;
+
+  /// No description provided for @callListeningLanguage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Язык разговора'**
+  String get callListeningLanguage;
+
+  /// No description provided for @callListeningNone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Совпадений для предупреждения нет. Это не означает безопасность.'**
+  String get callListeningNone;
+
+  /// No description provided for @callListeningCaution.
+  ///
+  /// In ru, this message translates to:
+  /// **'Есть подозрительные фразы. Проверьте, с кем разговариваете.'**
+  String get callListeningCaution;
+
+  /// No description provided for @callListeningWarning.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обнаружено опасное сочетание фраз'**
+  String get callListeningWarning;
+
+  /// No description provided for @callListeningDanger.
+  ///
+  /// In ru, this message translates to:
+  /// **'Это похоже на мошенничество. Не называйте коды и данные карты. Положите трубку и перезвоните в банк по номеру на карте.'**
+  String get callListeningDanger;
+
+  /// No description provided for @callListeningUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Локальное распознавание недоступно. Нужны Android 12+ и поддержка распознавания на устройстве. Используйте ручную проверку ниже.'**
+  String get callListeningUnavailable;
+
+  /// No description provided for @callListeningPermission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разрешите микрофон и уведомления для видимого индикатора. Помощник не запущен.'**
+  String get callListeningPermission;
+
+  /// No description provided for @callListeningNoAudio.
+  ///
+  /// In ru, this message translates to:
+  /// **'Речь не распознана: система могла отключить микрофон во время звонка. Микрофон остановлен. Опишите разговор вручную ниже.'**
+  String get callListeningNoAudio;
+
+  /// No description provided for @callListeningLanguageMissing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Офлайн-пакет выбранного языка недоступен. Установите его в настройках распознавания Android или используйте ручную проверку.'**
+  String get callListeningLanguageMissing;
+
+  /// No description provided for @callListeningLimit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сеанс остановлен после 30 минут. При необходимости запустите новый.'**
+  String get callListeningLimit;
+
+  /// No description provided for @callDictionaryVersion.
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия словаря'**
+  String get callDictionaryVersion;
+
+  /// No description provided for @callDictionaryEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Словарь казахских фраз ещё не проверен носителем языка. Предупреждения на казахском пока недоступны; доступна ручная проверка.'**
+  String get callDictionaryEmpty;
+
+  /// No description provided for @callDictionaryUpdate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить словарь'**
+  String get callDictionaryUpdate;
+
+  /// No description provided for @callDictionaryError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновление словаря не принято. Используется предыдущая проверенная версия.'**
+  String get callDictionaryError;
+
+  /// No description provided for @callSaveTranscript.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить расшифровку этого сеанса'**
+  String get callSaveTranscript;
+
+  /// No description provided for @callSaveTranscriptBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключено по умолчанию. Последняя расшифровка хранится зашифрованной только на телефоне и заменяет предыдущую. Сервер её не получает.'**
+  String get callSaveTranscriptBody;
+
+  /// No description provided for @callShowTranscript.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать сохранённую расшифровку'**
+  String get callShowTranscript;
+
+  /// No description provided for @callDeleteTranscript.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить расшифровку'**
+  String get callDeleteTranscript;
+
+  /// No description provided for @callNoSavedTranscript.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранённой расшифровки нет'**
+  String get callNoSavedTranscript;
+
+  /// No description provided for @callManualTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'После звонка: ручная проверка'**
+  String get callManualTitle;
+
+  /// No description provided for @callManualBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кратко опишите, что просил собеседник. По кнопке отправится только написанное вами описание. Расшифровка и аудио не отправляются. Не вводите секретные коды и реквизиты.'**
+  String get callManualBody;
+
+  /// No description provided for @callManualDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваше краткое описание'**
+  String get callManualDescription;
+
+  /// No description provided for @callManualAi.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверить описание с AI'**
+  String get callManualAi;
+
+  /// No description provided for @callListeningBack.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернуться к помощнику'**
+  String get callListeningBack;
 }
 
 class _AppLocalizationsDelegate

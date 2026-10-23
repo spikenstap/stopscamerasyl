@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/providers.dart';
+import '../services/call_listening_bridge.dart';
 import '../localization/generated/app_localizations.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
@@ -13,6 +14,16 @@ class StopScamApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(backendInitializationProvider);
     final prefs = ref.watch(preferencesProvider);
+    ref.listen(callListeningEventsProvider, (previous, next) {
+      final event = next.asData?.value;
+      final wasDanger = previous?.asData?.value['level'] == 'DANGER';
+      if (event?['open'] == true ||
+          (event?['level'] == 'DANGER' && !wasDanger)) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(routerProvider).go('/call-listening');
+        });
+      }
+    });
     return MaterialApp.router(
       builder: (context, child) =>
           CallEventSync(child: child ?? const SizedBox.shrink()),

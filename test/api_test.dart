@@ -47,7 +47,7 @@ void main() {
     expect(adapter.request!.headers['Authorization'], 'Bearer token-1');
     expect(adapter.requests.first.data, {
       'platform': 'android',
-      'appVersion': '2.1.0+3',
+      'appVersion': '2.2.0+4',
     });
   });
   test('Missing backend is configuration error', () async {

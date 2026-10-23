@@ -120,7 +120,7 @@ class BackendClient {
           'platform': defaultTargetPlatform == TargetPlatform.iOS
               ? 'ios'
               : 'android',
-          'appVersion': '2.1.0+3',
+          'appVersion': '2.2.0+4',
         });
         _checkDevice(registered);
         final device = {
@@ -180,26 +180,61 @@ class BackendClient {
     }
   }
 
+  Future<Map<String, dynamic>> keywords(
+    String lang,
+    int version,
+    String? etag,
+  ) async {
+    await _authenticate();
+    final usedToken = _token!;
+    Future<Map<String, dynamic>> fetch(String token, bool retry) => _request(
+      '/v1/keywords',
+      {},
+      token: token,
+      expose401: retry,
+      method: 'GET',
+      query: {'lang': lang, 'version': version},
+      headers: {'If-None-Match': ?etag},
+    );
+    try {
+      return await fetch(usedToken, true);
+    } on _Unauthorized {
+      await _authenticate(rejectedToken: usedToken);
+      return fetch(_token!, false);
+    }
+  }
+
   Future<Map<String, dynamic>> _request(
     String path,
     Map<String, dynamic> body, {
     String? token,
     bool expose401 = false,
+    String method = 'POST',
+    Map<String, dynamic>? query,
+    Map<String, dynamic> headers = const {},
   }) async {
     try {
-      final response = await _dio.post<dynamic>(
+      final response = await _dio.request<dynamic>(
         '$baseUrl$path',
-        data: body,
+        data: method == 'GET' ? null : body,
+        queryParameters: query,
         options: Options(
-          headers: {if (token != null) 'Authorization': 'Bearer $token'},
+          method: method,
+          headers: {
+            ...headers,
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
           contentType: Headers.jsonContentType,
           followRedirects: false,
           validateStatus: (status) =>
-              status != null && status >= 200 && status < 300,
+              status != null &&
+              ((status >= 200 && status < 300) ||
+                  (method == 'GET' && status == 304)),
           sendTimeout: const Duration(seconds: 20),
           receiveTimeout: const Duration(seconds: 60),
         ),
       );
+      if (response.statusCode == 304) return {'notModified': true};
       if (response.data is! Map<String, dynamic>) {
         throw const ApiException(Failure.json);
       }
