@@ -1,3 +1,5 @@
+import os
+
 import httpx
 import pytest
 from fakeredis.aioredis import FakeRedis
@@ -5,6 +7,15 @@ from fakeredis.aioredis import FakeRedis
 from app.config import Settings
 from app.main import create_app
 from app.models import Base
+
+
+@pytest.fixture(autouse=True)
+def isolated_settings(monkeypatch):
+    monkeypatch.setitem(Settings.model_config, "env_file", None)
+    setting_names = {name.upper() for name in Settings.model_fields}
+    for name in list(os.environ):
+        if name.upper() in setting_names:
+            monkeypatch.delenv(name)
 
 
 @pytest.fixture

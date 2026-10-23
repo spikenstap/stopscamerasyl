@@ -15,6 +15,8 @@ python -m venv .venv
 ```
 
 On Linux use `.venv/bin/`. Tests use aiosqlite and fakeredis with Lua.
+Test settings ignore the local `.env` and inherited application environment
+variables, so developer credentials cannot change test behavior.
 Coverage explicitly tracks greenlet and thread concurrency because SQLAlchemy async
 switches greenlets; without this setting covered async lines can be missed.
 All tests use synthetic library examples or explicitly labelled fake providers.
@@ -186,11 +188,21 @@ ThreatProvider returns checked plus matches; replace the dependency factory
 without changing analysis.py. A provider outage gives checked=false and never
 turns an absence of matches into a safety guarantee. Local matches still raise risk.
 
-## Manual Docker smoke verification — not executed here
+## Docker verification and manual smoke commands
 
-Docker is unavailable in the implementation environment. Build, container readiness
-and live compose smoke checks remain unverified. Use a fresh disposable Compose
-project and configure .env as above.
+Verified on 2026-10-23 with Docker Desktop 4.96.3, Engine 29.9.2 and Compose 5.6.1:
+all three images build, the production API and dev API become healthy, and
+both `/healthz` and `/readyz` return 200. Registration and token issuance work;
+the production API with no LLM key returns 503 `ai_not_configured`, with docs
+disabled. The dev smoke sequence below passes against the HTTPS mock LLM.
+Alembic upgrade, schema check and downgrade also pass on containerized
+PostgreSQL 16.15; Redis 7.4.11 is used for the live limits and cache.
+The production image runs without root and contains no `.env`, dev mock or
+pytest dependency. Its installed dependencies pass `pip check`.
+The verification project's containers and disposable volumes are removed
+after testing. Real LLM and Safe Browsing calls remain unverified.
+
+To repeat, use a fresh disposable Compose project and configure .env as above.
 
 ```sh
 docker compose -p stopscam-smoke --profile dev build
