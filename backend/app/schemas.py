@@ -134,3 +134,25 @@ class ThreatIntel(StrictModel):
 class AnalyzeResponse(AnalysisResult):
     threatIntel: ThreatIntel
     requestId: UUID
+
+
+class VerdictWrite(PhoneRequest):
+    status: Literal["flagged", "clear"]
+    source: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=64)
+    ]
+    sourceUrl: Annotated[str, StringConstraints(max_length=500)] | None = None
+    expiresAt: int | None = Field(None, strict=True, ge=0, le=253402300799000)
+
+
+class DomainRequest(StrictModel):
+    domain: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=253)
+    ]
+
+
+class DomainWrite(DomainRequest):
+    category: Literal["phishing", "malware", "scam"]
+    source: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=64)
+    ]
