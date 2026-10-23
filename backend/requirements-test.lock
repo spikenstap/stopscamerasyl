@@ -1,0 +1,15 @@
+-r requirements.lock
+aiosqlite==0.22.1
+coverage==7.17.0
+fakeredis==2.40.0
+iniconfig==2.3.1
+lupa==2.8
+opentelemetry-api==1.45.1
+packaging==26.3
+pluggy==1.7.0
+pygments==2.21.0
+pytest==9.1.1
+pytest-asyncio==1.4.0
+pytest-cov==7.1.0
+ruff==0.17.2
+sortedcontainers==2.4.0

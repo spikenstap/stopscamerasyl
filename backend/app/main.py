@@ -113,6 +113,11 @@ def create_app(settings=None):
     if not settings.phone_hash_pepper:
         settings.phone_hash_pepper = secrets.token_urlsafe(48)
     logging.getLogger("httpx").setLevel(logging.WARNING)
+    logger.setLevel(logging.INFO)
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        logger.addHandler(handler)
 
     @asynccontextmanager
     async def lifespan(app):

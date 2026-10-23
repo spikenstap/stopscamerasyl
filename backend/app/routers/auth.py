@@ -1,9 +1,11 @@
+from datetime import timedelta
+
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import get_session
 from app.errors import AppError
-from app.models import Device
+from app.models import Device, aware, utcnow
 from app.ratelimit import client_ip, consume
 from app.schemas import RegisterRequest, RegisterResponse, TokenRequest, TokenResponse
 from app.security import hash_secret, issue_token, new_secret, verify_secret
@@ -52,6 +54,9 @@ async def token(
         raise AppError("unauthorized", 401, "Unauthorized")
     if device.blocked:
         raise AppError("device_blocked", 403, "Device blocked")
+    if utcnow() - aware(device.last_seen_at) >= timedelta(hours=1):
+        device.last_seen_at = utcnow()
+        await session.commit()
     return {
         "accessToken": issue_token(device.id, settings),
         "tokenType": "Bearer",

@@ -73,12 +73,17 @@ class AnalyzeRequest(StrictModel):
 class AnalysisResult(StrictModel):
     riskScore: int = Field(strict=True, ge=0, le=100)
     confidence: float = Field(strict=True, ge=0, le=1, allow_inf_nan=False)
-    riskLevel: Any = None
+    riskLevel: Literal["safe", "low", "medium", "high", "critical"] = "safe"
     isScam: bool = Field(strict=True)
     category: str
     summary: str
     reasons: list[str] = Field(max_length=20)
     recommendations: list[str] = Field(min_length=1, max_length=20)
+
+    @field_validator("riskLevel", mode="before")
+    @classmethod
+    def ignore_model_level(cls, value):
+        return "safe"
 
     @field_validator("summary", "category", mode="before")
     @classmethod

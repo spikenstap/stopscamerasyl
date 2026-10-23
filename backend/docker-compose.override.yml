@@ -1,0 +1,34 @@
+# Only the explicitly selected dev profile starts the test LLM and dev API.
+# Production: docker compose -f docker-compose.yml up --build
+services:
+  mock-llm:
+    profiles: [dev]
+    build:
+      context: ./dev
+    volumes: [dev_certificates:/certs]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import ssl,urllib.request; urllib.request.urlopen('https://mock-llm:8443/healthz', context=ssl.create_default_context(cafile='/certs/cert.pem'), timeout=3)"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
+  api-dev:
+    profiles: [dev]
+    build: .
+    env_file: .env
+    environment:
+      APP_ENV: dev
+      LLM_API_URL: https://mock-llm:8443/v1/chat/completions
+      LLM_API_KEY: local-test-fixture
+      SSL_CERT_FILE: /certs/cert.pem
+      RATE_REGISTER_PER_IP_PER_HOUR: "100"
+      RATE_TOKEN_PER_IP_PER_MIN: "100"
+    volumes: [dev_certificates:/certs:ro]
+    ports: ["127.0.0.1:8001:8000"]
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      mock-llm: {condition: service_healthy}
+    command: ["sh", "-c", "alembic upgrade head && exec uvicorn app.main:create_app --factory --host 0.0.0.0 --port 8000 --no-access-log --no-proxy-headers"]
+volumes:
+  dev_certificates:
+

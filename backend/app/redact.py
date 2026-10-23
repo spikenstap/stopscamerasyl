@@ -5,7 +5,7 @@ CARD = re.compile(r"(?<!\d)(?:\d[ -]?){12,18}\d(?![ -]?\d)")
 IIN = re.compile(r"(?<!\d)\d{12}(?!\d)")
 EMAIL = re.compile(r"[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}")
 CODE = re.compile(
-    r"(?i)\b(?:код|code|пароль|password|cvv|cvc|otp|пин|pin|смс|sms)\b([^\d]{0,20})(\d{4,8})(?!\d)"
+    r"(?i)\b(?:код|code|пароль|password|cvv|cvc|otp|пин|pin|смс|sms)\b([\s\S]{0,20}?)(?<!\d)(\d{4,8})(?!\d)"
 )
 
 
