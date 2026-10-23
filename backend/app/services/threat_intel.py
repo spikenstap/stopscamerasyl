@@ -3,6 +3,7 @@ from typing import Protocol
 from urllib.parse import urlsplit
 
 import httpx
+from fastapi import Request
 from sqlalchemy import select
 
 from app.models import BlockedDomain
@@ -85,5 +86,5 @@ class SafeBrowsingProvider:
             return ThreatResult(False)
 
 
-def get_external_threat(request):
+def get_external_threat(request: Request):
     return SafeBrowsingProvider(request.app.state.settings.safe_browsing_api_key)
