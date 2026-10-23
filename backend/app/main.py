@@ -14,7 +14,7 @@ from app.config import Settings
 from app.db import make_engine
 from app.errors import AppError, app_error
 from app.redis import make_redis
-from app.routers import health
+from app.routers import auth, health
 
 logger = logging.getLogger("stopscam.access")
 
@@ -148,4 +148,5 @@ def create_app(settings=None):
         )
 
     app.include_router(health.router)
+    app.include_router(auth.router)
     return app
