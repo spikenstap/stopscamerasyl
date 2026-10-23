@@ -31,3 +31,24 @@ class TokenResponse(StrictModel):
     accessToken: str
     tokenType: str = "Bearer"
     expiresIn: int
+
+
+class PhoneRequest(StrictModel):
+    phoneNumber: Annotated[str, StringConstraints(min_length=1, max_length=64)]
+
+
+class PhoneReportRequest(PhoneRequest):
+    category: Literal["advertising", "suspectedFraud", "harassment", "other"]
+
+
+class ReputationResponse(StrictModel):
+    status: Literal["unknown", "clear", "flagged"]
+    confidence: float
+    confirmed: bool
+    source: str
+    reason: str
+    expiresAt: int
+
+
+class AcceptedResponse(StrictModel):
+    accepted: bool
